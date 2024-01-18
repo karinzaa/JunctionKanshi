@@ -49,5 +49,3 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 5. **As an emergency responder,** I want to know the real-time traffic situation at junctions, so I can choose the fastest route to the emergency location.
 
 6. **As a system developer,** I need feedback on traffic prediction accuracy, so I can continually improve the algorithm and system performance.
-
-These user stories help in understanding the needs and expectations from various perspectives, guiding the development and implementation of the traffic jam detection system.
