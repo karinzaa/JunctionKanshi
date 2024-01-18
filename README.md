@@ -1,5 +1,5 @@
 <br>
-<img align="right" src="https://i.ytimg.com/vi/CftLBPI1Ga4/maxresdefault.jpg" width="300"></img>
+<img align="right" src="https://i.ytimg.com/vi/CftLBPI1Ga4/maxresdefault.jpg" width="500"></img>
 <p align="center">
 </br>	
 
