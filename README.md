@@ -4,7 +4,7 @@
 </br>	
 
 # JunctionKanshi
-## Ict720-software-2024
+## ICT720-software-2024
 ## Our Members
 1. Purit Jessadakannasoon (6614552619)
 2. Rosi Indah Agustin (6614552562)
