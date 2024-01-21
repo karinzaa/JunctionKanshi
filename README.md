@@ -1,5 +1,5 @@
 <br>
-<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/JunctionKanshiLogoOriginal.png" width="300"></img>
+<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/JunctionKanshiLogoOriginal.png" width="350"></img>
 <p align="center">
 </br>	
 
@@ -19,8 +19,7 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 ## Core Components
 1. **Sensors and Cameras:** Deployed at junctions to monitor traffic flow and density.
 2. **Data Processing Unit:** Analyzes data from sensors and cameras, detecting congestion patterns.
-3. **Communication System:** Relays information to relevant stakeholders and traffic management systems.
-4. **User Interface:** Displays real-time traffic data for public use and traffic management teams.
+3. **User Interface:** Displays real-time traffic data for public use and traffic management teams.
 
 ## Technology Stack
 - **IoT Devices:** For real-time data collection.
@@ -39,7 +38,6 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 ## User Stories
 
 1. **As a traffic controller,** I want to receive real-time alerts about traffic jams at junctions, so that I can quickly implement countermeasures like traffic signal adjustments or dispatching traffic officers.
-2. **As a commuter,** I want to view current traffic conditions at key junctions, so that I can plan my route effectively and avoid congested areas.
-3. **As a city planner,** I need comprehensive traffic data from various junctions, so that I can analyze traffic patterns and plan better road networks.
-4. **As a law enforcement officer,** I need to be alerted to traffic jams, as they might indicate accidents or illegal activities, allowing for prompt response.
-5. **As a system developer,** I need feedback on traffic prediction accuracy, so I can continually improve the algorithm and system performance.
+2. **As a city planner,** I need comprehensive traffic data from various junctions, so that I can analyze traffic patterns and plan better road networks.
+3. **As a law enforcement officer,** I need to be alerted to traffic jams, as they might indicate accidents or illegal activities, allowing for prompt response.
+4. **As a system developer,** I need feedback on traffic prediction accuracy, so I can continually improve the algorithm and system performance.
