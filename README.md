@@ -39,13 +39,7 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 ## User Stories
 
 1. **As a traffic controller,** I want to receive real-time alerts about traffic jams at junctions, so that I can quickly implement countermeasures like traffic signal adjustments or dispatching traffic officers.
-   
 2. **As a commuter,** I want to view current traffic conditions at key junctions, so that I can plan my route effectively and avoid congested areas.
-
 3. **As a city planner,** I need comprehensive traffic data from various junctions, so that I can analyze traffic patterns and plan better road networks.
-
 4. **As a law enforcement officer,** I need to be alerted to traffic jams, as they might indicate accidents or illegal activities, allowing for prompt response.
-
-5. **As an emergency responder,** I want to know the real-time traffic situation at junctions, so I can choose the fastest route to the emergency location.
-
-6. **As a system developer,** I need feedback on traffic prediction accuracy, so I can continually improve the algorithm and system performance.
+5. **As a system developer,** I need feedback on traffic prediction accuracy, so I can continually improve the algorithm and system performance.
