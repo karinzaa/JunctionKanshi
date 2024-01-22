@@ -28,16 +28,25 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 
 ## Stakeholders
 
-1. **Local Government and Transportation Authorities:** Responsible for traffic management and infrastructure planning.
-2. **Law Enforcement:** Utilizes the system for managing traffic rules and responding to incidents.
-3. **Commuters and General Public:** Beneficiaries of smoother traffic flow and reduced congestion.
-4. **Urban Planners:** Use data for long-term traffic management and infrastructure development.
-5. **Tech Providers and Developers:** Responsible for building and maintaining the system.
-6. **Emergency Services:** Utilize real-time traffic data for quicker response times.
+1. **Traffic controller**
+2. **Urban Planners**
+3. **Law Enforcement**
+4. **Tech Providers and Developers**
 
 ## User Stories
 
-1. **As a traffic controller,** I want to receive real-time alerts about traffic jams at junctions, so that I can quickly implement countermeasures like traffic signal adjustments or dispatching traffic officers.
-2. **As a city planner,** I need comprehensive traffic data from various junctions, so that I can analyze traffic patterns and plan better road networks.
-3. **As a law enforcement officer,** I need to be alerted to traffic jams, as they might indicate accidents or illegal activities, allowing for prompt response.
-4. **As a system developer,** I need feedback on traffic prediction accuracy, so I can continually improve the algorithm and system performance.
+1. **US1:** as a traffic controller, I want to monitor real-time data on traffic volume
+   - **acceptance criteria #1** I can see the number of vehicles passing through the junction over specific periods
+   - **acceptance criteria #2** I can see the number of pedestrians crossing the junction over specific periods
+   - **acceptance criteria #3** I can identify the peak hours and patterns of traffic congestion
+2. **US1:** as a traffic controller, I want to be notified when there is a traffic jam at the junction
+   - **acceptance criteria #1** I get no notification if there is no a traffic jam at the junction
+3. **US2:** as an urban planner, I need comprehensive traffic data so that I can analyze traffic patterns and plan better road networks
+   - **acceptance criteria #1** I get the data that contains the number of vehicles passing through the junction over specific periods
+   - **acceptance criteria #2** I get the data that contains the number of pedestrians passing through the junction over specific periods
+   - **acceptance criteria #3** I get the data that present the peak hours and patterns of traffic congestion
+4. **US3:** as a law enforcement, I want to be notified when there is a traffic jam at the junction, as they might indicate accidents or illegal activities
+   - **acceptance criteria #1** I get no notification if there is no a traffic jam at the junction
+5. **US4:** as a tech provider/developer, I want to be notified when there is an error in the system
+   - **acceptance criteria #1** I get a notification if the system can't display the real-time traffic junction
+   - **acceptance criteria #2** I get a notification if the system detects an object with the accuracy below 50% of the object
