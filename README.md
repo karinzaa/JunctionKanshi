@@ -16,16 +16,6 @@
 ## Objective
 To develop a system that detects traffic congestion at junctions, enabling efficient traffic management and timely intervention.
 
-## Core Components
-1. **Sensors and Cameras:** Deployed at junctions to monitor traffic flow and density.
-2. **Data Processing Unit:** Analyzes data from sensors and cameras, detecting congestion patterns.
-3. **User Interface:** Displays real-time traffic data for public use and traffic management teams.
-
-## Technology Stack
-- **IoT Devices:** For real-time data collection.
-- **Machine Learning Algorithms:** To analyze traffic patterns and predict jams.
-- **Cloud Computing:** For data storage and processing.
-
 ## Stakeholders
 
 1. **Traffic controller**
