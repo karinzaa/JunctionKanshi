@@ -19,9 +19,8 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 ## Stakeholders
 
 1. **Traffic controller**
-2. **Urban Planners**
-3. **Law Enforcement**
-4. **Tech Providers and Developers**
+2. **Law Enforcement**
+3. **Tech Providers and Developers**
 
 ## User Stories
 
