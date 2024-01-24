@@ -19,8 +19,7 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 ## Stakeholders
 
 1. **Traffic controller**
-2. **Law Enforcement**
-3. **Tech Providers and Developers**
+2. **Tech Providers and Developers**
 
 ## User Stories
 
@@ -30,12 +29,6 @@ To develop a system that detects traffic congestion at junctions, enabling effic
    - **acceptance criteria #3** I can identify the peak hours and patterns of traffic congestion
 2. **US2:** as a traffic controller, I want to be notified when there is a traffic jam at the junction
    - **acceptance criteria #1** I get no notification if there is no a traffic jam at the junction
-3. **US3:** as an urban planner, I need comprehensive traffic data so that I can analyze traffic patterns and plan better road networks
-   - **acceptance criteria #1** I can get the raw data that contains the number of vehicles passing through the junction over specific periods
-   - **acceptance criteria #2** I can get the raw data that contains the number of pedestrians passing through the junction over specific periods
-   - **acceptance criteria #3** I can get the raw data that present the peak hours and patterns of traffic congestion
-4. **US4:** as a law enforcement, I want to be notified when there is a traffic jam at the junction, as they might indicate accidents or illegal activities
-   - **acceptance criteria #1** I get no notification if there is no a traffic jam at the junction
-5. **US5:** as a tech provider/developer, I want to monitor the status of devices
+3. **US3:** as a tech provider/developer, I want to monitor the status of devices
    - **acceptance criteria #1** I can see the status of all devices (online/activated/offline).
    - **acceptance criteria #2** I can see a map of installed devices.
