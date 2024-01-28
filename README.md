@@ -33,7 +33,4 @@ To develop a system that detects traffic congestion at junctions, enabling effic
    - **acceptance criteria #2** I can see a map of installed devices.
 
 ## Software Model
-<br>
-<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/sequence_diagram.png" width="350"></img>
-<p align="center">
-</br>	
+<img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/sequence_diagram.png"></img>
