@@ -31,3 +31,5 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 3. **US3:** as a tech provider/developer, I want to monitor the status of devices
    - **acceptance criteria #1** I can see the status of all devices (online/activated/offline).
    - **acceptance criteria #2** I can see a map of installed devices.
+
+<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/sequence_diagram.png" width="350"></img>
