@@ -1,5 +1,5 @@
 <br>
-<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/JunctionKanshiLogoOriginal.png" width="350"></img>
+<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiLogoOriginal.png" width="350"></img>
 <p align="center">
 </br>	
 
