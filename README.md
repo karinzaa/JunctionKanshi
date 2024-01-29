@@ -34,3 +34,6 @@ To develop a system that detects traffic congestion at junctions, enabling effic
 
 ## Sequence Diagram
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/sequence_diagram.png"></img>
+
+## State Diagram
+<img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/state_diagram.JPG"></img>
