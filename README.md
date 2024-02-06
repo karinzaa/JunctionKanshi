@@ -32,6 +32,9 @@ To develop a system that detects traffic congestion at junctions, enabling effic
    - **acceptance criteria #1** I can see the status of all devices (online/activated/offline).
    - **acceptance criteria #2** I can see a map of installed devices.
 
+## Summary Diagram
+<img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiDiagram.png"></img>
+
 ## Sequence Diagram
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/sequence_diagram.png"></img>
 
