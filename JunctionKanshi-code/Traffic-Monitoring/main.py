@@ -6,6 +6,10 @@ import math
 import numpy as np
 
 
+# Constant Declaration
+WIDTH = 1280
+HEIGHT = 720
+
 def overlay_logo(frame, logo, position, margin=10):
     frame_h, frame_w, _ = frame.shape
     logo_h, logo_w, _ = logo.shape
