@@ -5,6 +5,8 @@ import time
 import math
 import numpy as np
 
+# Video capture
+video = cv2.VideoCapture("https://streaming1.highwaytraffic.go.th/Phase3/PER_3_009_IN.stream/chunklist_w1042704716.m3u8") # This is public link you can put this link in VLC to watch this steam.
 
 # Constant Declaration
 WIDTH = 1280
