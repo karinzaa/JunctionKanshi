@@ -41,3 +41,19 @@ def overlay_logo(frame, logo, position, margin=10):
         frame[y:y+logo_h, x:x+logo_w] = logo
 
     return frame
+
+# Estimate speed function
+def estimateSpeed(location1, location2):
+    d_pixels = math.sqrt(math.pow(location2[0] - location1[0], 2) + math.pow(location2[1] - location1[1], 2))
+    ppm = 8.8
+    d_meters = d_pixels / ppm
+    fps = 29.97
+    speed = d_meters * fps * 3.6
+    return speed
+
+def isCrossingLine(point, line_start, line_end):
+    line_vec = np.array(line_end) - np.array(line_start)
+    point_vec = np.array(point) - np.array(line_start)
+    dot = np.dot(line_vec, point_vec)
+    len_sq = line_vec[0] ** 2 + line_vec[1] ** 2
+    return dot > 0 and dot < len_sq
