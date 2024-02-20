@@ -14,7 +14,7 @@
 ## Domain: Traffic Control
 
 ## Objective
-To develop a system that detects traffic congestion at junctions, enabling efficient traffic management and timely intervention.
+To develop a system that detects traffic congestion by artificial intelligence, enabling efficient traffic management and timely intervention.
 
 ## Stakeholders
 
