@@ -7,8 +7,8 @@
 #define HIVEMQ_USERNAME   "taist_aiot_dev"
 #define MQTT_NOTIFICATION  "taist/aiot/notification/dev_00"
 
-#define WIFI_SSID         "dtac"
-#define WIFI_PASSWORD     "notokiam"
+#define WIFI_SSID         "wifi_username"
+#define WIFI_PASSWORD     "wifi_pass"
 
 WiFiClient wifi_client;
 PubSubClient mqtt_client(wifi_client);
