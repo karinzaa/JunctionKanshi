@@ -1,7 +1,6 @@
 <br>
-<img align="right" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiLogoOriginal.png" width="350"></img>
-<p align="center">
-</br>	
+<img src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiLogoOriginal.png" style="display: block; margin-left: auto; margin-right: auto; width: 350px;" alt="JunctionKansh Logol">
+</br>
 
 # JunctionKanshi
 ## ICT720-software-2024
