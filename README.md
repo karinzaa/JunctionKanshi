@@ -17,12 +17,10 @@
 To develop a system that detects traffic congestion by artificial intelligence, enabling efficient traffic management and timely intervention.
 
 ## Stakeholders
-
 1. **Traffic controller**
 2. **Tech Providers and Developers**
 
 ## User Stories
-
 1. **US1:** as a traffic controller, I want to monitor real-time data on traffic volume, so I know whether there is a traffic jam or not
    - **acceptance criteria #1** I can see the number of vehicles passing through the junction over specific periods
    - **acceptance criteria #2** I can identify the peak hours and patterns of traffic congestion
