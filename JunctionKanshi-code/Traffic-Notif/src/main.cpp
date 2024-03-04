@@ -8,12 +8,35 @@
 #define MQTT_NOTIFICATION  "taist/aiot/notification/dev_00"
 
 #define WIFI_SSID         "wifi_username"
-#define WIFI_PASSWORD     "wifi_pass"
+#define WIFI_PASSWORD     "wifi_password"
+
+
+const int LED_GREEN_PIN = 46; // green button
+const int LED_YELLOW_PIN = 45; // yellow button
+const int LED_RED_PIN = 21; // red button
+String trafficStatus = "high"; // traffic status
 
 WiFiClient wifi_client;
 PubSubClient mqtt_client(wifi_client);
 
+// Function to set the LEDs based on traffic status
+void setLED() {
+  if (trafficStatus == "high") {
+    digitalWrite(LED_RED_PIN, HIGH);
+    digitalWrite(LED_GREEN_PIN, LOW);
+  } else if (trafficStatus == "low") {
+    digitalWrite(LED_RED_PIN, LOW);
+    digitalWrite(LED_GREEN_PIN, HIGH);
+  } else {
+    digitalWrite(LED_RED_PIN, LOW);
+    digitalWrite(LED_GREEN_PIN, LOW);
+  }
+}
+
 void setup(){
+  pinMode(LED_GREEN_PIN, OUTPUT);
+  pinMode(LED_YELLOW_PIN, OUTPUT);
+  pinMode(LED_RED_PIN, OUTPUT);
   Serial.begin(115200);
   WiFi.mode(WIFI_OFF);
   delay(100);
@@ -26,6 +49,11 @@ void setup(){
   }
     }
 
+
 void loop() {
+  setLED();
+  delay(1000); // Wait for 1 second
+  // getStatus()
   Serial.println("OK");
 }
+
