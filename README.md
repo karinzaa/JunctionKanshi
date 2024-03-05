@@ -40,3 +40,6 @@ To develop a system that detects traffic congestion by artificial intelligence, 
 
 ## UML Class Diagram
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/be81252f911fbaf2ff1e75362cdb24baaa0ed5e8/images/UMLClassDiagram.png"></img>
+
+## Threat Categorization and Mitigation Flowchart
+<img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/Detailed%20Threat%20Categorization%20and%20Mitigation%20Flowchart.png"></img>
