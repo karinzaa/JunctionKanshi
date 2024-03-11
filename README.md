@@ -27,7 +27,7 @@ To develop a system that detects traffic congestion by artificial intelligence, 
    - **acceptance criteria #1** I get no notification if there is no a traffic jam at the junction
 3. **US3:** as a tech provider/developer, I want to monitor the status of devices
    - **acceptance criteria #1** I can see the status of all devices (online/activated/offline).
-   - **acceptance criteria #2** I can see a map of installed devices.
+   - **acceptance criteria #2** I can see a map of installed devices
 
 ## Summary Diagram
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiDiagram.png"></img>
