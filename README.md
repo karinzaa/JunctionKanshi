@@ -10,7 +10,7 @@
 3. Karin Vitoonkijvanit (661XXXX589)
 
 # Overview     
-## Domain: Traffic Control
+## Domain: Traffic Monitor & Control
 
 ## Objective
 To develop a system that detects traffic congestion by artificial intelligence, enabling efficient traffic management and timely intervention.
