@@ -39,4 +39,4 @@ To develop a system that detects traffic congestion by artificial intelligence, 
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/state_diagram.png"></img>
 
 ## UML Class Diagram
-<img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/be81252f911fbaf2ff1e75362cdb24baaa0ed5e8/images/UMLClassDiagram.png"></img>
+<img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/UMLClassDiagram.png"></img>
