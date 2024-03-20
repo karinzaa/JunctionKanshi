@@ -4,29 +4,54 @@ import dlib
 import time
 import math
 import numpy as np
+import queue
+import threading
+import json
+
 
 # Classifier File
 carCascade = cv2.CascadeClassifier("CasCade/vech.xml")
-
-# Video file capture
-video = cv2.VideoCapture("https://streaming1.highwaytraffic.go.th/Phase3/PER_3_009_IN.stream/chunklist_w1042704716.m3u8") #This is public link you can put this link in VLC to watch this steam.
 
 # Constant Declaration
 WIDTH = 1280
 HEIGHT = 720
 
+# Video capture
+video_url = "https://streaming1.highwaytraffic.go.th/Phase3/PER_3_009_IN.stream/chunklist_w1042704716.m3u8"
+
 # Load the logo, possibly resize and position
 logo = cv2.imread("static/JunctionKanshiLogoLandscape.png", cv2.IMREAD_UNCHANGED)  # Logo must is PNG with transparency
 logo = cv2.resize(logo, (195, 50))  # Resize as needed
-position = 'bottom-right' # Location as needed
+position = 'bottom-right' # Location as neededq
 
 # Read the mask image
 mask = cv2.imread("static/mask.png")
 mask = cv2.resize(mask, (WIDTH, HEIGHT))
 
 # Line position for counting cars
-line_start, line_end = (70,900  // 2), (800,600  // 2)
-line_color, line_thickness = (255, 255, 0), 30
+line_start, line_end = (60, 900 // 2), (750, 600 // 2)
+line_color, line_thickness = (255, 255, 0), 50
+
+# Buffer for video frames
+frame_buffer = queue.Queue(maxsize=29.97)
+
+def fetch_frames(video_capture):
+    while True:
+        ret, frame = video_capture.read()
+    
+        if not ret:
+            print("Failed to fetch frame.")
+            break
+        if not frame_buffer.full():
+            frame_buffer.put(frame)
+        else:
+            time.sleep(0.4)  # Wait if the buffer is full
+
+# Initialize video capture with threading
+video_capture = cv2.VideoCapture(video_url)
+thread = threading.Thread(target=fetch_frames, args=(video_capture,))
+thread.daemon = True
+thread.start()
 
 def overlay_logo(frame, logo, position, margin=10):
     frame_h, frame_w, _ = frame.shape
@@ -57,8 +82,10 @@ def overlay_logo(frame, logo, position, margin=10):
 # Estimate speed function
 def estimateSpeed(location1, location2):
     d_pixels = math.sqrt(math.pow(location2[0] - location1[0], 2) + math.pow(location2[1] - location1[1], 2))
-    ppm = 8.8
+    ppm = 9.8
+    # ppm = 8.8
     d_meters = d_pixels / ppm
+    # fps = 24.97
     fps = 29.97
     speed = d_meters * fps * 3.6
     return speed
@@ -75,31 +102,30 @@ def trackMultipleObjects():
     rectangleColor = (0, 255, 255)
     frameCounter = 0
     currentCarID = 0
-    fps = 0
 
     carTracker = {}
     carNumbers = {}
     carLocation1 = {}
     carLocation2 = {}
-    speed = [None] * 1000
-
-    # out = cv2.VideoWriter('outTraffic.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 10, (WIDTH, HEIGHT))
+    speed = {}
 
     while True:
-        start_time = time.time()
-        rc, image = video.read()
-        if type(image) == type(None):
-            break
+        # Initialize resultImage at the start of the loop to avoid UnboundLocalError
+        resultImage = None  # This will be replaced with actual frame processing below
 
-        image = cv2.resize(image, (WIDTH, HEIGHT))
-        # Apply the mask to the resized frame
-        processed_img = cv2.bitwise_and(image, mask)
-        resultImage = image.copy()
-        # Overlay the logo on the resultImage
-        resultImage = overlay_logo(resultImage, logo, position, margin=10)
+        if not frame_buffer.empty():
+            start_time = time.time()  # Record the start time before processing the frame
 
-        cv2.line(resultImage, line_start, line_end, line_color, line_thickness)
+            image = frame_buffer.get()
+            if image is None:  # Check if the frame is valid
+                continue  # Skip this iteration if the frame is not valid
 
+            image = cv2.resize(image, (WIDTH, HEIGHT))
+            processed_img = cv2.bitwise_and(image, mask)
+            resultImage = image.copy()
+            resultImage = overlay_logo(resultImage, logo, position, margin=10)
+            cv2.line(resultImage, line_start, line_end, line_color, line_thickness)
+            
 
         frameCounter += 1
         carIDtoDelete = []
@@ -170,10 +196,14 @@ def trackMultipleObjects():
 
             carLocation2[carID] = [t_x, t_y, t_w, t_h]
 
-        end_time = time.time()
-
-        if not (end_time == start_time):
-            fps = 1.0 / (end_time - start_time)
+            end_time = time.time()
+            frame_time = end_time - start_time
+            if frame_time > 0:
+                fps = 1.0 / frame_time
+                # Optionally display FPS on the frame
+            else:
+                # If the buffer is empty, wait a bit for it to fill
+                time.sleep(0.1)
 
         for i in carLocation1.keys():
             if frameCounter % 1 == 0:
@@ -183,20 +213,20 @@ def trackMultipleObjects():
                 carLocation1[i] = [x2, y2, w2, h2]
 
                 if [x1, y1, w1, h1] != [x2, y2, w2, h2]:
-                    if (speed[i] is None or speed[i] == 0) and y1 >= 275 and y1 <= 285:
-                        speed[i] = estimateSpeed([x1, y1, w1, h1], [x1, y2, w2, h2])
-                        print(f"Car detected")
-                    if speed[i] is not None and y1 >= 180:
-                        cv2.putText(resultImage, str(int(speed[i])) + " km/h", (int(x1 + w1 / 2), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 0), 2)
-                        print(int(speed[i]), end=' ')
-        cv2.imshow('JunctionKanshi Traffic Monitoring', resultImage)
+                    if (i not in speed or speed[i] == 0) and y1 >= 275 and y1 <= 285:
+                        speed[i] = estimateSpeed([x1, y1, w1, h1], [x2, y2, w2, h2])
+                        print(f"Car detected with speed: {int(speed[i])} km/h")
+                    if i in speed and y1 >= 180:
+                        cv2.putText(resultImage, f"{int(speed[i])} km/h", (int(x1 + w1 / 2), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 0), 2)
+        if resultImage is not None:
+            cv2.imshow('JunctionKanshi: Traffic Monitoring', resultImage)
         # out.write(resultImage)
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
             break
 
     cv2.destroyAllWindows()
-    video.release()
+    video_capture.release()
     # out.release()
 
 if __name__ == '__main__':
