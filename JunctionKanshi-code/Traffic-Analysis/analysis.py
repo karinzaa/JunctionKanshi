@@ -27,7 +27,7 @@ def on_message(client, userdata, msg):
             traffic_status = "HIGH"
         else:
             traffic_status = "LOW"
-        # will add send IoT server (MQTT-->the c++ file)
+        # publish traffic status data (MQTT-->the c++ file)
         publish_json(client, traffic_status)
         print(traffic_status)
 
