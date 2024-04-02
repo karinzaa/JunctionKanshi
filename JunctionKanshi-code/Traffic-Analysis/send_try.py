@@ -6,7 +6,7 @@ import time
 # MQTT broker configuration
 broker_address = "broker.hivemq.com"
 broker_port = 1883
-topic = "taist/aiot/junctionkanshi/traffic_status_try"  # Change this to the topic you want to publish to
+topic = "taist/aiot/junctionkanshi/camera1"
 
 # Function to publish JSON data
 def publish_json(client, data):
