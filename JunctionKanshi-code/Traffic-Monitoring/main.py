@@ -87,7 +87,8 @@ def estimateSpeed(location1, location2):
     d_meters = d_pixels / ppm
     # fps = 24.97
     fps = 29.97
-    speed = d_meters * fps * 3.6
+    speed = d_meters * fps * 2.85
+    # speed = d_meters * fps * 3.6
     return speed
 
 def isCrossingLine(point, line_start, line_end):
