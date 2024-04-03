@@ -12,18 +12,30 @@
 #define WIFI_SSID         "wifi_username"
 #define WIFI_PASSWORD     "wifi_password"
 
-#define trafficStatus     "high"
+String trafficStatus;     
 
-const int LED_GREEN_PIN = 46; // green button
-const int LED_YELLOW_PIN = 45; // yellow button
-const int LED_RED_PIN = 21; // red button
+const int LED_GREEN_PIN = 46;
+const int LED_YELLOW_PIN = 45;
+const int LED_RED_PIN = 21;
 
 WiFiClient wifi_client;
 PubSubClient mqtt_client(wifi_client);
-StaticJsonDocument<200> json_doc;
 
 // queue handle
 // QueueHandle_t evt_queue;
+
+// Function to set the LEDs based on traffic status
+void setLED() {
+  if (trafficStatus == "HIGH") {
+    digitalWrite(LED_RED_PIN, HIGH);
+    digitalWrite(LED_GREEN_PIN, LOW);
+  } 
+  else if (trafficStatus == "LOW") {
+    digitalWrite(LED_RED_PIN, LOW);
+    digitalWrite(LED_GREEN_PIN, HIGH);
+  } 
+  Serial.println("LED state updated");
+}
 
 // callback function when command is received
 void on_cmd_received(char* topic, byte* payload, unsigned int length) {
@@ -32,18 +44,18 @@ void on_cmd_received(char* topic, byte* payload, unsigned int length) {
   String message = "";
   for (int i = 0; i < length; i++) {
     message += (char)payload[i];
-    }
+  }
+    message.remove(0, 1);  // Remove the first quote
+    message.remove(message.length() - 1);  // Remove the last quote
+
     Serial.print("Message received: ");
     Serial.println(message);
-
-    // Control the LED based on the message
-    // if (message == "on") {
-    //   digitalWrite(ledPin, HIGH);
-    // } else if (message == "off") {
-    //   digitalWrite(ledPin, LOW);
-    // }
-  // }
+    if (message != trafficStatus) {
+        trafficStatus = message;
+        setLED();
+    }
 }
+
 // task to received the message
 void comm_task(){
   // initialize the network
@@ -64,32 +76,18 @@ void comm_task(){
   mqtt_client.subscribe(MQTT_TOPIC);
 }
 
-// Function to set the LEDs based on traffic status
-// void setLED() {
-//   if (trafficStatus == "high") {
-//     digitalWrite(LED_RED_PIN, HIGH);
-//     digitalWrite(LED_GREEN_PIN, LOW);
-//   } else if (trafficStatus == "low") {
-//     digitalWrite(LED_RED_PIN, LOW);
-//     digitalWrite(LED_GREEN_PIN, HIGH);
-//   } else {
-//     digitalWrite(LED_RED_PIN, LOW);
-//     digitalWrite(LED_GREEN_PIN, LOW);
-//   }
-// }
-
 void setup(){
   pinMode(LED_GREEN_PIN, OUTPUT);
   pinMode(LED_YELLOW_PIN, OUTPUT);
   pinMode(LED_RED_PIN, OUTPUT);
   comm_task();
-    }
+}
 
 void loop() {
   if (mqtt_client.connected()) {
     mqtt_client.loop();
     Serial.println("MQTT loop");
-    }
+  }
    else {
     Serial.println("MQTT disconnected");
   }
