@@ -33,7 +33,7 @@ try:
             i=0
         else:
             data = {"vehicleCount": "10", "speed": "1.5"}
-        time.sleep(1)  # Wait for 1 minute
+        time.sleep(10)  # Wait for 1 minute
 except KeyboardInterrupt:
     print("Exiting...")
     client.disconnect()
