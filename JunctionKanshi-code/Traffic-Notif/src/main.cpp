@@ -2,7 +2,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
-#include <Queue.h>
+// #include <Queue.h>
 
 #define MQTT_BROKER       "broker.hivemq.com"
 #define MQTT_PORT         1883
@@ -14,9 +14,9 @@
 
 String trafficStatus;     
 
-const int LED_GREEN_PIN = 46;
-const int LED_YELLOW_PIN = 45;
-const int LED_RED_PIN = 21;
+const int LED_GREEN_PIN = 15;
+const int LED_YELLOW_PIN = 2;
+const int LED_RED_PIN = 4;
 
 WiFiClient wifi_client;
 PubSubClient mqtt_client(wifi_client);
@@ -59,7 +59,7 @@ void on_cmd_received(char* topic, byte* payload, unsigned int length) {
 // task to received the message
 void comm_task(){
   // initialize the network
-  Serial.begin(115200);
+  Serial.begin(9600); // 115200
   WiFi.mode(WIFI_OFF);
   delay(100);
   WiFi.mode(WIFI_STA);
@@ -84,6 +84,7 @@ void setup(){
 }
 
 void loop() {
+  delay(2000);
   if (mqtt_client.connected()) {
     mqtt_client.loop();
     Serial.println("MQTT loop");
@@ -93,4 +94,3 @@ void loop() {
   }
   delay(1000);
 }
-
