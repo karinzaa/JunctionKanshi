@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import json
 import time
+from datetime import datetime
 import sys
 
 # MQTT broker configuration
@@ -27,9 +28,13 @@ def on_message(client, userdata, msg):
             traffic_status = "HIGH"
         else:
             traffic_status = "LOW"
+        now = datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M")    
+        data = {'traffic_status': traffic_status,
+                'datetime': dt_string}
         # publish traffic status data (MQTT-->the c++ file)
-        publish_json(client, traffic_status)
-        print(traffic_status)
+        publish_json(client, data)
+        print(data)
 
         
     except json.JSONDecodeError as e:
