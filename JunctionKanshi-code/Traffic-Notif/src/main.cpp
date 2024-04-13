@@ -14,9 +14,7 @@
 #define WIFI_SSID         "wifi_username"
 #define WIFI_PASSWORD     "wifi_password"
 
-String trafficStatus;
-String timeTraffic = "09:10 AM";
-String dateTraffic = "08/04/2024";
+String trafficStatus, dateStr, timeStr;
 LiquidCrystal_I2C lcd(0x27, 20, 04);
      
 
@@ -52,10 +50,10 @@ void setLCD(){
 	lcd.print(trafficStatus);
 	lcd.setCursor(0,2);  
 	lcd.print("Date: ");
-	lcd.print(dateTraffic);
+	lcd.print(dateStr);
 	lcd.setCursor(0,3);
 	lcd.print("Time: ");
-	lcd.print(timeTraffic);
+	lcd.print(timeStr);
 	Serial.println("LCD updated");
 }
 
@@ -63,21 +61,44 @@ void setLCD(){
 void on_cmd_received(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message received on topic: ");
   Serial.println(topic);
-  String message = "";
   for (int i = 0; i < length; i++) {
-    message += (char)payload[i];
+    Serial.print((char)payload[i]);
   }
-    message.remove(0, 1);  // Remove the first quote
-    message.remove(message.length() - 1);  // Remove the last quote
+  Serial.println();
+  StaticJsonDocument<200> doc;
+  DeserializationError error = deserializeJson(doc, payload, length);
 
-    Serial.print("Message received: ");
-    Serial.println(message);
-    if (message != trafficStatus) {
-        trafficStatus = message;
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.c_str());
+    return;
+  }
+
+  String newTrafficStatus = doc["traffic_status"];
+  const char* newDatetime = doc["datetime"];
+
+  Serial.print("Traffic Status: ");
+  Serial.println(newTrafficStatus);
+  Serial.print("Datetime: ");
+  Serial.println(newDatetime);
+
+  // Separate date and time
+  char date[11]; // "DD/MM/YYYY\0"
+  char time[9];  // "HH:MM\0"
+  strncpy(date, newDatetime, 10); // Copy first 10 characters (date) to date buffer
+  date[10] = '\0'; // Null-terminate the date string
+  strncpy(time, newDatetime + 11, 5); // Skip first 11 characters (date), then copy next 5 characters (time) to time buffer
+  time[5] = '\0'; // Null-terminate the time string
+
+  dateStr = date;
+  timeStr = time;
+
+  if (newTrafficStatus != trafficStatus) {
+        trafficStatus = newTrafficStatus;
         // setLED();
-    }
-	   setLCD();
-	//    delay(10000); //change for 1 minute = 60000
+  }
+	setLCD();
+	delay(10000); //change for 1 minute = 60000
 }
 
 void initLCD(){
@@ -97,7 +118,6 @@ void initLCD(){
 
 void comm_task(){
   // initialize the network
-//   Serial.begin(9600); 
   WiFi.mode(WIFI_OFF);
   delay(100);
   WiFi.mode(WIFI_STA);
