@@ -135,10 +135,12 @@ def trackMultipleObjects():
                 center_point = (int(trackedPosition.left() + trackedPosition.width() / 2), 
                                 int(trackedPosition.top() + trackedPosition.height() / 2))
 
+                """
                 if carID not in carNumbers and isCrossingLine(center_point, line_start, line_end):
                     carNumbers[carID] = True
                     carCountPerMinute += 1
-                    print(f"Car detected. Total this minute: {carCountPerMinute}")
+                    # print(f"Car detected total in this minute: {carCountPerMinute}")
+                """
 
         
         # Minute timer for car count
@@ -211,7 +213,7 @@ def trackMultipleObjects():
             if carID not in carNumbers and isCrossingLine(center_point, line_start, line_end):
                 carNumbers[carID] = True  # Mark this car as counted
                 carCountPerMinute += 1
-                print(f"Total this minute: {carCountPerMinute}")
+                print(f"Car detected total in this minute: {carCountPerMinute}")
                 # print(f"Car ID {carID} detected crossing. Total this minute: {carCountPerMinute}")
 
             cv2.rectangle(resultImage, (t_x, t_y), (t_x + t_w, t_y + t_h), rectangleColor, 4)
