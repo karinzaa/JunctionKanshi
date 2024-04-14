@@ -95,14 +95,17 @@ def isCrossingLine(point, line_start, line_end):
     line_vec = np.array(line_end) - np.array(line_start)
     point_vec = np.array(point) - np.array(line_start)
     dot = np.dot(line_vec, point_vec)
-    len_sq = line_vec[0] ** 2 + line_vec[1] ** 2
-    return dot > 0 and dot < len_sq
+    len_sq = np.dot(line_vec, line_vec)
+    is_crossing = (dot > 0) and (dot < len_sq)
+    return is_crossing
 
 # Tracking multiple objects
 def trackMultipleObjects():
     rectangleColor = (0, 255, 255)
     frameCounter = 0
     currentCarID = 0
+    carCountPerMinute = 0
+    startTime = time.time()
 
     carTracker = {}
     carNumbers = {}
@@ -127,6 +130,22 @@ def trackMultipleObjects():
             resultImage = overlay_logo(resultImage, logo, position, margin=10)
             cv2.line(resultImage, line_start, line_end, line_color, line_thickness)
             
+            for carID in carTracker.keys():
+                trackedPosition = carTracker[carID].get_position()
+                center_point = (int(trackedPosition.left() + trackedPosition.width() / 2), 
+                                int(trackedPosition.top() + trackedPosition.height() / 2))
+
+                if carID not in carNumbers and isCrossingLine(center_point, line_start, line_end):
+                    carNumbers[carID] = True
+                    carCountPerMinute += 1
+                    print(f"Car detected. Total this minute: {carCountPerMinute}")
+
+        
+        # Minute timer for car count
+        if time.time() - startTime >= 60:
+            print(f"Cars per minute: {carCountPerMinute}")
+            carCountPerMinute = 0
+            startTime = time.time()
 
         frameCounter += 1
         carIDtoDelete = []
@@ -145,13 +164,13 @@ def trackMultipleObjects():
         if not (frameCounter % 10):
             gray = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
             cars = carCascade.detectMultiScale(gray, 1.1, 13, 18, (24, 24))
+            # print(f"Detected {len(cars)} cars in this frame.")
 
             for (_x, _y, _w, _h) in cars:
                 x = int(_x)
                 y = int(_y)
                 w = int(_w)
                 h = int(_h)
-
                 x_bar = x + 0.5 * w
                 y_bar = y + 0.5 * h
 
@@ -174,10 +193,9 @@ def trackMultipleObjects():
                 if matchCarID is None:
                     tracker = dlib.correlation_tracker()
                     tracker.start_track(processed_img, dlib.rectangle(x, y, x + w, y + h))
-
                     carTracker[currentCarID] = tracker
                     carLocation1[currentCarID] = [x, y, w, h]
-
+                    # print(f"New car tracked: ID {currentCarID} at position {x}, {y}, {w}, {h}")
                     currentCarID += 1
 
         for carID in carTracker.keys():
@@ -189,9 +207,12 @@ def trackMultipleObjects():
             t_w = int(trackedPosition.width())
             t_h = int(trackedPosition.height())
 
+            center_point = (t_x + t_w // 2, t_y + t_h // 2)
             if carID not in carNumbers and isCrossingLine(center_point, line_start, line_end):
                 carNumbers[carID] = True  # Mark this car as counted
-                print(f"Car detected")  # Print the updated car count in the command line
+                carCountPerMinute += 1
+                print(f"Total this minute: {carCountPerMinute}")
+                # print(f"Car ID {carID} detected crossing. Total this minute: {carCountPerMinute}")
 
             cv2.rectangle(resultImage, (t_x, t_y), (t_x + t_w, t_y + t_h), rectangleColor, 4)
 
@@ -222,6 +243,13 @@ def trackMultipleObjects():
         if resultImage is not None:
             cv2.imshow('JunctionKanshi: Traffic Monitoring', resultImage)
         # out.write(resultImage)
+
+        # Minute timer for car count
+        current_time = time.time()
+        if current_time - startTime >= 60:
+            print(f"Cars per minute: {carCountPerMinute}")
+            carCountPerMinute = 0
+            startTime = current_time
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
             break
