@@ -7,7 +7,7 @@ import numpy as np
 import queue
 import threading
 import json
-from Traffic_Analysis.mqtt_client import MQTTClient
+from comm_task.mqtt_client import MQTTClient
 
 # Define MQTT broker configuration
 broker_address = "broker.hivemq.com"
