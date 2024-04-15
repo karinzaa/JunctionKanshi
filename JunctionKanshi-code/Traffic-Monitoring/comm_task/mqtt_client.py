@@ -7,7 +7,7 @@ class MQTTClient:
         self.broker_address = broker_address
         self.broker_port = broker_port
         self.topic = topic
-        self.client = mqtt.Client()
+        self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
     def connect(self):
         self.client.connect(self.broker_address, self.broker_port)
