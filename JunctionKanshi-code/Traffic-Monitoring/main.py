@@ -140,7 +140,6 @@ def trackMultipleObjects():
                     carNumbers[carID] = True
                     carCountPerMinute += 1
                     # print(f"Car detected total in this minute: {carCountPerMinute}")
-                """
 
         
         # Minute timer for car count
@@ -148,6 +147,7 @@ def trackMultipleObjects():
             print(f"Cars per minute: {carCountPerMinute}")
             carCountPerMinute = 0
             startTime = time.time()
+        """
 
         frameCounter += 1
         carIDtoDelete = []
