@@ -98,11 +98,11 @@ void on_cmd_received(char* topic, byte* payload, unsigned int length) {
         // setLED();
   }
 	setLCD();
-	delay(10000); //change for 1 minute = 60000
+	delay(10000); //change for less than 1 minute < 60000
 }
 
 void initLCD(){
-	Wire.begin(SDA, SCL);
+	Wire.begin(SDA, SCL); //SDA=pin D21, SCL=pin D22
 	lcd.begin(20,4);
 	lcd.backlight();
 	lcd.print("Please wait..");

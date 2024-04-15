@@ -7,7 +7,15 @@ import numpy as np
 import queue
 import threading
 import json
+from Traffic_Analysis.mqtt_client import MQTTClient
 
+# Define MQTT broker configuration
+broker_address = "broker.hivemq.com"
+broker_port = 1883
+topic = "taist/aiot/junctionkanshi/camera1/detection"
+
+# Create an instance of the MQTTClient class
+mqtt_client = MQTTClient(broker_address, broker_port, topic)
 
 # Classifier File
 carCascade = cv2.CascadeClassifier("CasCade/vech.xml")
@@ -250,6 +258,9 @@ def trackMultipleObjects():
         current_time = time.time()
         if current_time - startTime >= 60:
             print(f"Cars per minute: {carCountPerMinute}")
+            data = {"vehicleCount": carCountPerMinute, "speed": speed}
+            # Run the MQTT client with the provided data
+            mqtt_client.run(data)
             carCountPerMinute = 0
             startTime = current_time
 
