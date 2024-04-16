@@ -8,6 +8,7 @@ import queue
 import threading
 import json
 from comm_task.mqtt_client import MQTTClient
+from datetime import datetime
 
 # Define MQTT broker configuration
 broker_address = "broker.hivemq.com"
@@ -258,7 +259,11 @@ def trackMultipleObjects():
         current_time = time.time()
         if current_time - startTime >= 60:
             print(f"Cars per minute: {carCountPerMinute}")
-            data = {"vehicleCount": carCountPerMinute, "speed": speed}
+            now = datetime.now()
+            dt_string = now.strftime("%d/%m/%Y %H:%M")
+            data = {"vehicleCount": carCountPerMinute, 
+                    "speed": speed, 
+                    "datetime":dt_string}
             # Run the MQTT client with the provided data
             mqtt_client.run(data)
             carCountPerMinute = 0
