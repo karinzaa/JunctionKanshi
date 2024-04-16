@@ -3,7 +3,6 @@ import json
 import time
 from datetime import datetime
 import sys
-from comm_task.mqtt_client import MQTTClient
 import numpy as np
 
 # MQTT broker configuration
