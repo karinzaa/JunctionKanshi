@@ -260,7 +260,7 @@ def trackMultipleObjects():
         if current_time - startTime >= 60:
             print(f"Cars per minute: {carCountPerMinute}")
             now = datetime.now()
-            dt_string = now.strftime("%d/%m/%Y %H:%M")
+            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
             data = {"vehicleCount": carCountPerMinute, 
                     "speed": speed, 
                     "datetime":dt_string}
