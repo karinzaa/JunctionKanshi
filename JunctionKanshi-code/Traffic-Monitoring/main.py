@@ -10,6 +10,21 @@ import json
 from comm_task.mqtt_client import MQTTClient
 from datetime import datetime
 
+now = datetime.now()
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+banner = r"""
+     _                  _   _             _  __               _     _ 
+    | |_   _ _ __   ___| |_(_) ___  _ __ | |/ /__ _ _ __  ___| |__ (_)
+ _  | | | | | '_ \ / __| __| |/ _ \| '_ \| ' // _` | '_ \/ __| '_ \| |
+| |_| | |_| | | | | (__| |_| | (_) | | | | . \ (_| | | | \__ \ | | | |
+ \___/ \__,_|_| |_|\___|\__|_|\___/|_| |_|_|\_\__,_|_| |_|___/_| |_|_|
+ 
+"""
+print(banner)
+print(f"Systems startup at: {dt_string}")
+
+
 # Define MQTT broker configuration
 broker_address = "broker.hivemq.com"
 broker_port = 1883
@@ -17,6 +32,17 @@ topic = "taist/aiot/junctionkanshi/camera1/detection"
 
 # Create an instance of the MQTTClient class
 mqtt_client = MQTTClient(broker_address, broker_port, topic)
+
+def publish_data(carCount, speeds):
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    data = {
+        "vehicleCount": carCount,
+        "speed": speeds,
+        "datetime": dt_string
+    }
+    mqtt_client.run(data)  # Assuming the method to send message is send_message
+
 
 # Classifier File
 carCascade = cv2.CascadeClassifier("CasCade/vech.xml")
@@ -258,16 +284,11 @@ def trackMultipleObjects():
         # Minute timer for car count
         current_time = time.time()
         if current_time - startTime >= 60:
+            threading.Thread(target=publish_data, args=(carCountPerMinute, speed)).start()
             print(f"Cars per minute: {carCountPerMinute}")
-            now = datetime.now()
-            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-            data = {"vehicleCount": carCountPerMinute, 
-                    "speed": speed, 
-                    "datetime":dt_string}
-            # Run the MQTT client with the provided data
-            mqtt_client.run(data)
             carCountPerMinute = 0
             startTime = current_time
+
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
             break
