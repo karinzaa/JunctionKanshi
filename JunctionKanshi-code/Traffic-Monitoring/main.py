@@ -222,7 +222,7 @@ def trackMultipleObjects():
             if carID not in carNumbers and isCrossingLine(center_point, line_start, line_end):
                 carNumbers[carID] = True  # Mark this car as counted
                 carCountPerMinute += 1
-                print(f"Car detected total in this minute: {carCountPerMinute}")
+                # print(f"Car detected total in this minute: {carCountPerMinute}")
                 # print(f"Car ID {carID} detected crossing. Total this minute: {carCountPerMinute}")
 
             cv2.rectangle(resultImage, (t_x, t_y), (t_x + t_w, t_y + t_h), rectangleColor, 4)
@@ -248,7 +248,7 @@ def trackMultipleObjects():
                 if [x1, y1, w1, h1] != [x2, y2, w2, h2]:
                     if (i not in speed or speed[i] == 0) and y1 >= 275 and y1 <= 285:
                         speed[i] = estimateSpeed([x1, y1, w1, h1], [x2, y2, w2, h2])
-                        print(f"Car detected with speed: {int(speed[i])} km/h")
+                        # print(f"Car detected with speed: {int(speed[i])} km/h")
                     if i in speed and y1 >= 180:
                         cv2.putText(resultImage, f"{int(speed[i])} km/h", (int(x1 + w1 / 2), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 0), 2)
         if resultImage is not None:
