@@ -19,7 +19,7 @@ banner = r"""
  _  | | | | | '_ \ / __| __| |/ _ \| '_ \| ' // _` | '_ \/ __| '_ \| |
 | |_| | |_| | | | | (__| |_| | (_) | | | | . \ (_| | | | \__ \ | | | |
  \___/ \__,_|_| |_|\___|\__|_|\___/|_| |_|_|\_\__,_|_| |_|___/_| |_|_|
- 
+
 """
 print(banner)
 print(f"Systems startup at: {dt_string}")
@@ -278,6 +278,8 @@ def trackMultipleObjects():
                     if i in speed and y1 >= 180:
                         cv2.putText(resultImage, f"{int(speed[i])} km/h", (int(x1 + w1 / 2), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 0), 2)
         if resultImage is not None:
+            cv2.putText(resultImage, "Press 'Q' in ENG key to stop system.", (15, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.90, (0, 0, 0), 10,)
+            cv2.putText(resultImage, "Press 'Q' in ENG key to stop system.", (15, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.90, (255, 255, 255), 2,)
             cv2.imshow('JunctionKanshi: Traffic Monitoring', resultImage)
         # out.write(resultImage)
 
