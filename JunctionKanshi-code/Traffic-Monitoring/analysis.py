@@ -1,15 +1,8 @@
 import paho.mqtt.client as mqtt
 import json
 import time
-from datetime import datetime
-import sys
 import numpy as np
-
-# MQTT broker configuration
-mqtt_broker_address = "broker.hivemq.com"
-mqtt_port = 1883
-mqtt_topic_subscribe = "taist/aiot/junctionkanshi/camera1/detection"
-mqtt_topic_publish = "taist/aiot/junctionkanshi/camera1/status"
+import threading
 
 class TrafficAnalyzer:
     def __init__(self, data):
@@ -17,6 +10,7 @@ class TrafficAnalyzer:
         self.avg_speed = 0
 
     def analyze_traffic(self):
+        print("The number of vehicles: {}".format(self.data['vehicleCount']))
         # Convert dictionary values to a list and convert string values to integers
         speed_values = list(self.data['speed'].values())
 
@@ -57,45 +51,93 @@ class TrafficAnalyzer:
         else:
             return "LOW"
 
-class Communication:
-    def __init__(self, broker_address, port, subscribe_topic, publish_topic):
+class MQTTClientPubSub:
+    def __init__(self, broker_address, broker_port, subscribe_topic, publish_topic):
         self.broker_address = broker_address
-        self.port = port
+        self.broker_port = broker_port
         self.subscribe_topic = subscribe_topic
         self.publish_topic = publish_topic
-
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-        self.client.on_connect = self.on_connect
-        self.client.on_message = self.on_message
+        self.payload = None
+        self.lock = threading.Lock()
 
     def connect(self):
-        self.client.connect(self.broker_address, self.port)
-        self.client.loop_forever()
+        self.client.connect(self.broker_address, self.broker_port)
+
+    def disconnect(self):
+        self.client.disconnect()
+
+    def subscribe(self):
+        self.client.subscribe(self.subscribe_topic)
 
     def publish_json(self, data):
         payload = json.dumps(data)
         self.client.publish(self.publish_topic, payload)
         print("Published:", payload)
 
-    def on_connect(self, client, userdata, flags, rc, properties):
-        print(f"Connected with result code {rc}")
-        client.subscribe(self.subscribe_topic)
+    def on_message(self, client, userdata, message):
+        payload = json.loads(message.payload.decode('utf-8'))
+        # print(f"Received message on topic {message.topic}: {payload}")
+        with self.lock:
+            self.payload = payload
 
-    def on_message(self, client, userdata, msg):
+    def subscribe_loop(self):
+        while True:
+            try:
+                print("Subscribing to topic...")
+                self.connect()
+                self.subscribe()
+                self.client.on_message = self.on_message
+                self.client.loop_forever()
+            except KeyboardInterrupt:
+                print("Exiting subscribe loop...")
+                self.disconnect()
+                break
+            except Exception as e:
+                print("Exception in subscribe loop:", e)
+                time.sleep(5)  # Wait for a while before reconnecting
+
+    def publish_loop(self):
+        while True:
+            if self.payload is not None:
+                with self.lock:
+                    data = self.payload
+                    # data = json.loads(self.payload.decode('utf-8'))
+                    traffic_analyzer = TrafficAnalyzer(data)
+                    traffic_analyzer.analyze_traffic()
+                    traffic_status = traffic_analyzer.get_traffic_status()    
+                    data = {'traffic_status': traffic_status,
+                            'datetime': data['datetime']}
+                    self.payload = None  # Reset payload after publishing
+                print("Publishing data...")
+                self.publish_json(data)
+            time.sleep(1)
+
+    def run(self):
+        subscribe_thread = threading.Thread(target=self.subscribe_loop)
+        publish_thread = threading.Thread(target=self.publish_loop)
+
+        subscribe_thread.daemon = True
+        publish_thread.daemon = True
+
+        subscribe_thread.start()
+        publish_thread.start()
+
+        print("MQTT client is running. Press Ctrl+C to stop.")
         try:
-            data = json.loads(msg.payload.decode('utf-8'))
-            print(f"Received message on topic {msg.topic}: {data}")
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            print("Keyboard interrupt received. Stopping MQTT client...")
+            self.disconnect()
+            print("MQTT client stopped.")
 
-            traffic_analyzer = TrafficAnalyzer(data)
-            traffic_analyzer.analyze_traffic()
-            traffic_status = traffic_analyzer.get_traffic_status()    
-            data = {'traffic_status': traffic_status,
-                    'datetime': data['datetime']}
+if __name__ == "__main__":
+    # MQTT broker configuration
+    mqtt_broker_address = "broker.hivemq.com"
+    mqtt_port = 1883
+    mqtt_topic_subscribe = "taist/aiot/junctionkanshi/camera1/detection"
+    mqtt_topic_publish = "taist/aiot/junctionkanshi/camera1/status"
 
-            self.publish_json(data)
-
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-
-communication = Communication(mqtt_broker_address, mqtt_port, mqtt_topic_subscribe, mqtt_topic_publish)
-communication.connect()
+    client = MQTTClientPubSub(mqtt_broker_address, mqtt_port, mqtt_topic_subscribe, mqtt_topic_publish)
+    client.run()
