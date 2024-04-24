@@ -37,13 +37,17 @@ mqtt_client = MQTTClient(broker_address, broker_port, topic)
 def publish_data(carCount, speeds):
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    data = {
+    data = json.dumps({
         "vehicleCount": carCount,
         "speed": speeds,
         "datetime": dt_string
-    }
-    mqtt_client.run(data)  # Assuming the method to send message is send_message
-
+    })
+    try:
+        mqtt_client.connect()  # Make sure the client is connected
+        mqtt_client.run(topic, data)  # Assuming the MQTTClient has a publish method
+        mqtt_client.disconnect()  # Optionally disconnect after sending
+    except Exception as e:
+        print(f"Failed to publish data: {str(e)}")
 
 # Classifier File
 carCascade = cv2.CascadeClassifier("CasCade/vech.xml")
