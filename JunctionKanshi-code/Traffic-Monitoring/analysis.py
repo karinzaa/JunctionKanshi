@@ -17,7 +17,9 @@ banner = r"""
  \___/ \__,_|_| |_|\___|\__|_|\___/|_| |_|_|\_\__,_|_| |_|___/_| |_|_|
                                                       Traffic Analysis 
 """
+
 print(banner)
+print("======================================================================")
 print(f"Systems startup at: {dt_string}")
 class TrafficAnalyzer:
     def __init__(self, data):
@@ -131,7 +133,8 @@ if __name__ == "__main__":
     client_thread.start()
     publish_thread.start()
 
-    print("MQTT client is running. Press Ctrl+C to stop.")
+    print("MQTT client is running. Press 'Ctrl+C' key to stop.")
+    print("======================================================================")
     try:
         while True:
             time.sleep(1)
