@@ -19,10 +19,11 @@ banner = r"""
  _  | | | | | '_ \ / __| __| |/ _ \| '_ \| ' // _` | '_ \/ __| '_ \| |
 | |_| | |_| | | | | (__| |_| | (_) | | | | . \ (_| | | | \__ \ | | | |
  \___/ \__,_|_| |_|\___|\__|_|\___/|_| |_|_|\_\__,_|_| |_|___/_| |_|_|
-
+                                                    Traffic Monitoring 
 """
 print(banner)
 print(f"Systems startup at: {dt_string}")
+print("Traffic Monitoring client is running. Press Ctrl+C to stop.")
 
 
 # Define MQTT broker configuration

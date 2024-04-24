@@ -4,7 +4,21 @@ import time
 import numpy as np
 import threading
 from queue import Queue
+from datetime import datetime
 
+now = datetime.now()
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+banner = r"""
+     _                  _   _             _  __               _     _ 
+    | |_   _ _ __   ___| |_(_) ___  _ __ | |/ /__ _ _ __  ___| |__ (_)
+ _  | | | | | '_ \ / __| __| |/ _ \| '_ \| ' // _` | '_ \/ __| '_ \| |
+| |_| | |_| | | | | (__| |_| | (_) | | | | . \ (_| | | | \__ \ | | | |
+ \___/ \__,_|_| |_|\___|\__|_|\___/|_| |_|_|\_\__,_|_| |_|___/_| |_|_|
+                                                      Traffic Analysis 
+"""
+print(banner)
+print(f"Systems startup at: {dt_string}")
 class TrafficAnalyzer:
     def __init__(self, data):
         self.data = data
