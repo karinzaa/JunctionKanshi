@@ -3,6 +3,7 @@ import json
 import time
 import numpy as np
 import threading
+from queue import Queue
 
 class TrafficAnalyzer:
     def __init__(self, data):
@@ -58,7 +59,7 @@ class MQTTClientPubSub:
         self.subscribe_topic = subscribe_topic
         self.publish_topic = publish_topic
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-        self.payload = None
+        self.queue = Queue()
         self.lock = threading.Lock()
 
     def connect(self):
@@ -70,67 +71,34 @@ class MQTTClientPubSub:
     def subscribe(self):
         self.client.subscribe(self.subscribe_topic)
 
+    def on_message(self, client, userdata, message):
+        payload = json.loads(message.payload.decode('utf-8'))
+        with self.lock:
+            self.queue.put(payload)
+
     def publish_json(self, data):
         payload = json.dumps(data)
         self.client.publish(self.publish_topic, payload)
         print("Published:", payload)
 
-    def on_message(self, client, userdata, message):
-        payload = json.loads(message.payload.decode('utf-8'))
-        # print(f"Received message on topic {message.topic}: {payload}")
-        with self.lock:
-            self.payload = payload
-
-    def subscribe_loop(self):
-        while True:
-            try:
-                print("Subscribing to topic...")
-                self.connect()
-                self.subscribe()
-                self.client.on_message = self.on_message
-                self.client.loop_forever()
-            except KeyboardInterrupt:
-                print("Exiting subscribe loop...")
-                self.disconnect()
-                break
-            except Exception as e:
-                print("Exception in subscribe loop:", e)
-                time.sleep(5)  # Wait for a while before reconnecting
+    def run(self):
+        self.connect()
+        self.subscribe()
+        self.client.on_message = self.on_message
+        self.client.loop_forever()
 
     def publish_loop(self):
         while True:
-            if self.payload is not None:
+            if not self.queue.empty():
                 with self.lock:
-                    data = self.payload
-                    # data = json.loads(self.payload.decode('utf-8'))
+                    data = self.queue.get()
                     traffic_analyzer = TrafficAnalyzer(data)
                     traffic_analyzer.analyze_traffic()
                     traffic_status = traffic_analyzer.get_traffic_status()    
                     data = {'traffic_status': traffic_status,
                             'datetime': data['datetime']}
-                    self.payload = None  # Reset payload after publishing
-                print("Publishing data...")
-                self.publish_json(data)
-            time.sleep(1)
-
-    def run(self):
-        subscribe_thread = threading.Thread(target=self.subscribe_loop)
-        publish_thread = threading.Thread(target=self.publish_loop)
-
-        subscribe_thread.daemon = True
-        publish_thread.daemon = True
-
-        subscribe_thread.start()
-        publish_thread.start()
-
-        print("MQTT client is running. Press Ctrl+C to stop.")
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            print("Keyboard interrupt received. Stopping MQTT client...")
-            self.disconnect()
-            print("MQTT client stopped.")
+                    print("Publishing data...")
+                    self.publish_json(data)
 
 if __name__ == "__main__":
     # MQTT broker configuration
@@ -140,4 +108,20 @@ if __name__ == "__main__":
     mqtt_topic_publish = "taist/aiot/junctionkanshi/camera1/status"
 
     client = MQTTClientPubSub(mqtt_broker_address, mqtt_port, mqtt_topic_subscribe, mqtt_topic_publish)
-    client.run()
+    client_thread = threading.Thread(target=client.run)
+    publish_thread = threading.Thread(target=client.publish_loop)
+
+    client_thread.daemon = True
+    publish_thread.daemon = True
+
+    client_thread.start()
+    publish_thread.start()
+
+    print("MQTT client is running. Press Ctrl+C to stop.")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Keyboard interrupt received. Stopping MQTT client...")
+        client.disconnect()
+        print("MQTT client stopped.")
