@@ -21,13 +21,11 @@ banner = r"""
  \___/ \__,_|_| |_|\___|\__|_|\___/|_| |_|_|\_\__,_|_| |_|___/_| |_|_|
                                                     Traffic Monitoring 
 """
-
 print(banner)
 print("======================================================================")
 print(f"Systems startup at: {dt_string}")
 print("Traffic Monitoring client is running. Press 'Ctrl+C' key to stop.")
 print("======================================================================")
-
 
 # Define MQTT broker configuration
 broker_address = "broker.hivemq.com"
@@ -35,6 +33,7 @@ broker_port = 1883
 topic = "taist/aiot/junctionkanshi/camera1/detection"
 
 # Create an instance of the MQTTClient class
+
 mqtt_client = MQTTClient(broker_address, broker_port, topic)
 
 def publish_data(carCount, speeds):
@@ -42,15 +41,17 @@ def publish_data(carCount, speeds):
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     data = json.dumps({
         "vehicleCount": carCount,
-        "speed": speeds,
+        "speed": speeds,  # Assuming speeds is a dict; adjust if otherwise
         "datetime": dt_string
     })
     try:
-        mqtt_client.connect()  # Make sure the client is connected
-        mqtt_client.run(topic, data)  # Assuming the MQTTClient has a publish method
-        mqtt_client.disconnect()  # Optionally disconnect after sending
+        if not mqtt_client.connect():
+            mqtt_client.connect()  # Ensure client is connected (connect might be automatically handled inside publish)
+        mqtt_client.run(topic, data)  # This be the method to send messages
     except Exception as e:
         print(f"Failed to publish data: {str(e)}")
+    finally:
+        mqtt_client.disconnect()  # Disconnect after sending, if that's your preferred strategy
 
 # Classifier File
 carCascade = cv2.CascadeClassifier("CasCade/vech.xml")
