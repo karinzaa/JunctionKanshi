@@ -302,6 +302,7 @@ def trackMultipleObjects():
 
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
+            mqtt_client.disconnect()
             break
 
     cv2.destroyAllWindows()
