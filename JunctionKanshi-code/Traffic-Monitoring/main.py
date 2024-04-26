@@ -47,7 +47,7 @@ def publish_data(carCount, speeds):
     try:
         if not mqtt_client.connect():
             mqtt_client.connect()  # Ensure client is connected (connect might be automatically handled inside publish)
-        mqtt_client.run(topic, data)  # This be the method to send messages
+        mqtt_client.run(data)  # This be the method to send messages
     except Exception as e:
         print(f"Failed to publish data: {str(e)}")
     finally:
