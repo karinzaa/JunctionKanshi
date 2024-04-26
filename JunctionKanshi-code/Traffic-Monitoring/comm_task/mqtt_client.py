@@ -16,7 +16,7 @@ class MQTTClient:
         self.client.disconnect()
 
     def publish_json(self, data):
-        payload = json.dumps(data)
+        payload = data
         self.client.publish(self.topic, payload)
         print("Published:", payload)
 
