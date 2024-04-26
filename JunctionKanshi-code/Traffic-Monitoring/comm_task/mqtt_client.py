@@ -24,7 +24,7 @@ class MQTTClient:
         try:
             self.connect()
             self.publish_json(data)
-            self.disconnect()
+            self.client.loop_forever()
         except KeyboardInterrupt:
             print("Exiting...")
             self.disconnect()
