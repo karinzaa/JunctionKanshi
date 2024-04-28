@@ -11,10 +11,12 @@
 #define HIVEMQ_USERNAME   "taist_aiot_dev"
 #define MQTT_TOPIC  	  "taist/aiot/junctionkanshi/camera1/status"
 
-#define WIFI_SSID         "wifi_username"
-#define WIFI_PASSWORD     "wifi_password"
+#define WIFI_SSID         "dtac" //"KANOKSIRI_5G"
+#define WIFI_PASSWORD     "wkwkwkwk" //"Thaweelarp23"
 
-String trafficStatus, dateStr, timeStr;
+String trafficStatus, dateStr, timeStr, newTrafficJam, trafficJam;
+float newAvgSpeedLCD;
+char trafficSpeedUnit[2];
 LiquidCrystal_I2C lcd(0x27, 20, 04);
      
 
@@ -43,11 +45,14 @@ PubSubClient mqtt_client(wifi_client);
 
 void setLCD(){
 	lcd.clear();
-	lcd.setCursor(5,0);
-	lcd.print("Traffic Jam");
+	lcd.setCursor(0,0);
+	lcd.print("Traffic Jam: ");
+  lcd.print(trafficJam);
 	lcd.setCursor(0,1);
-	lcd.print("Status: "); 
-	lcd.print(trafficStatus);
+	lcd.print("Avg.Speed: "); 
+	lcd.print(newAvgSpeedLCD);
+  lcd.print(" ");
+  lcd.print(trafficSpeedUnit);
 	lcd.setCursor(0,2);  
 	lcd.print("Date: ");
 	lcd.print(dateStr);
@@ -75,30 +80,50 @@ void on_cmd_received(char* topic, byte* payload, unsigned int length) {
   }
 
   String newTrafficStatus = doc["traffic_status"];
+  float newAvgSpeed = doc["avg_speed"];
+  const char* newSpeedUnit = doc["unit_speed"];
   const char* newDatetime = doc["datetime"];
+
+  if(newTrafficStatus == "LOW"){
+    newTrafficJam = "NO";
+  }
+  else{
+    newTrafficJam = "YES";
+  }
 
   Serial.print("Traffic Status: ");
   Serial.println(newTrafficStatus);
+  Serial.print("Traffic Jam: ");
+  Serial.println(newTrafficJam);
+  Serial.print("Average Speed: ");
+  Serial.println(newAvgSpeed);
+  Serial.print("Unit: ");
+  Serial.println(trafficSpeedUnit);
   Serial.print("Datetime: ");
   Serial.println(newDatetime);
 
   // Separate date and time
   char date[11]; // "DD/MM/YYYY\0"
   char time[9];  // "HH:MM\0"
+  
   strncpy(date, newDatetime, 10); // Copy first 10 characters (date) to date buffer
   date[10] = '\0'; // Null-terminate the date string
   strncpy(time, newDatetime + 11, 5); // Skip first 11 characters (date), then copy next 5 characters (time) to time buffer
   time[5] = '\0'; // Null-terminate the time string
+  strncpy(trafficSpeedUnit, newSpeedUnit, 2); 
 
   dateStr = date;
   timeStr = time;
 
   if (newTrafficStatus != trafficStatus) {
-        trafficStatus = newTrafficStatus;
+    trafficStatus = newTrafficStatus;
+    trafficJam = newTrafficJam;
         // setLED();
   }
+  // trafficStatus = newTrafficStatus;
+  newAvgSpeedLCD = newAvgSpeed;
 	setLCD();
-	delay(10000); //change for less than 1 minute < 60000
+	// delay(100);
 }
 
 void initLCD(){
@@ -130,7 +155,6 @@ void comm_task(){
   mqtt_client.setServer(MQTT_BROKER, MQTT_PORT);
   mqtt_client.setCallback(on_cmd_received);
   mqtt_client.connect(HIVEMQ_USERNAME);
-
   mqtt_client.subscribe(MQTT_TOPIC);
 }
 
@@ -142,7 +166,7 @@ void setup(){
 }
 
 void loop() {
-  delay(2000);
+  delay(500);
   if (mqtt_client.connected()) {
     mqtt_client.loop();
     Serial.println("MQTT loop");
@@ -150,5 +174,5 @@ void loop() {
    else {
     Serial.println("MQTT disconnected");
   }
-  delay(1000);
+  delay(500);
 }
