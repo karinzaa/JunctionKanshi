@@ -283,7 +283,6 @@ def trackMultipleObjects():
         if current_time - startTime >= 60:
             threading.Thread(target=publish_data, args=(carCountPerMinute, speed)).start()
             print(f"Estimate cars per minute: {carCountPerMinute}")
-            print(f"Estimate average speed: per minute: {speed}")
             carCountPerMinute = 0
             startTime = current_time
 
