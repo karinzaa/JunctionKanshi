@@ -27,7 +27,7 @@ class TrafficAnalyzer:
         self.avg_speed = 0
 
     def getAvgSpeed(self):
-        print("The number of vehicles: {}".format(self.data['vehicleCount']))
+        print("The estimate number of vehicles: {}".format(self.data['vehicleCount']))
         # Convert dictionary values to a list and convert string values to integers
         speed_values = list(self.data['speed'].values())
 
@@ -45,7 +45,7 @@ class TrafficAnalyzer:
             # Check if the standard deviation is close to zero
             if np.isclose(std_speed, 0):
                 print("Standard deviation is close to zero, cannot compute z-score.")
-                print("Average speed: {} km/h".format(mean_speed))
+                print("Estimate average speed: per minute: {} km/h".format(mean_speed))
                 self.avg_speed = mean_speed
             else:
                 # Calculate z-score
@@ -60,14 +60,18 @@ class TrafficAnalyzer:
                 else:
                     # Calculate the average of the filtered speed values
                     self.avg_speed = round(np.mean(filtered_speed_values),2)
-                    print("Average of non-zero speed values with abs(z-score) < 1.5: {} km/h".format(self.avg_speed))
+                    print("Estimate average of non-zero speed values with abs(z-score) < 1.5: {} km/h".format(self.avg_speed))
         return self.avg_speed
 
     def get_traffic_status(self):
-        if self.data['vehicleCount'] > 0 and self.data['vehicleCount'] <= 10 and self.avg_speed < 40:
+        if self.data['vehicleCount'] >= 0 and self.data['vehicleCount'] <= 15 :
+            return "LOW"
+        elif  self.data['vehicleCount'] > 0 and self.data['vehicleCount'] <= 10 and self.avg_speed < 40 :
+            return "HIGH"
+        elif self.avg_speed < 40 :
             return "HIGH"
         else:
-            return "LOW"
+            return "NOMAL"
 
 class MQTTClientPubSub:
     def __init__(self, broker_address, broker_port, subscribe_topic, publish_topic):

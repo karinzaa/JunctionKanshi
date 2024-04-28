@@ -179,20 +179,6 @@ def trackMultipleObjects():
                 center_point = (int(trackedPosition.left() + trackedPosition.width() / 2), 
                                 int(trackedPosition.top() + trackedPosition.height() / 2))
 
-                """
-                if carID not in carNumbers and isCrossingLine(center_point, line_start, line_end):
-                    carNumbers[carID] = True
-                    carCountPerMinute += 1
-                    # print(f"Car detected total in this minute: {carCountPerMinute}")
-
-        
-        # Minute timer for car count
-        if time.time() - startTime >= 60:
-            print(f"Cars per minute: {carCountPerMinute}")
-            carCountPerMinute = 0
-            startTime = time.time()
-        """
-
         frameCounter += 1
         carIDtoDelete = []
 
@@ -296,7 +282,8 @@ def trackMultipleObjects():
         current_time = time.time()
         if current_time - startTime >= 60:
             threading.Thread(target=publish_data, args=(carCountPerMinute, speed)).start()
-            print(f"Cars per minute: {carCountPerMinute}")
+            print(f"Estimate cars per minute: {carCountPerMinute}")
+            print(f"Estimate average speed: per minute: {speed}")
             carCountPerMinute = 0
             startTime = current_time
 
@@ -311,3 +298,10 @@ def trackMultipleObjects():
 
 if __name__ == '__main__':
     trackMultipleObjects()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Keyboard interrupt received. Stopping MQTT client...")
+
+        print("MQTT client stopped.")
