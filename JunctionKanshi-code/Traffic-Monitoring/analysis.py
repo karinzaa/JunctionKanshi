@@ -26,7 +26,7 @@ class TrafficAnalyzer:
         self.data = data
         self.avg_speed = 0
 
-    def analyze_traffic(self):
+    def getAvgSpeed(self):
         print("The number of vehicles: {}".format(self.data['vehicleCount']))
         # Convert dictionary values to a list and convert string values to integers
         speed_values = list(self.data['speed'].values())
@@ -59,8 +59,9 @@ class TrafficAnalyzer:
                     print("No speed values with abs(z-score) < 1.5")
                 else:
                     # Calculate the average of the filtered speed values
-                    self.avg_speed = np.mean(filtered_speed_values)
-                    print("Average of non-zero speed values with abs(z-score) < 1.5: {} km/h".format(round(self.avg_speed,2)))
+                    self.avg_speed = round(np.mean(filtered_speed_values),2)
+                    print("Average of non-zero speed values with abs(z-score) < 1.5: {} km/h".format(self.avg_speed))
+        return self.avg_speed
 
     def get_traffic_status(self):
         if self.data['vehicleCount'] > 0 and self.data['vehicleCount'] <= 10 and self.avg_speed < 40:
@@ -109,9 +110,11 @@ class MQTTClientPubSub:
                 with self.lock:
                     data = self.queue.get()
                     traffic_analyzer = TrafficAnalyzer(data)
-                    traffic_analyzer.analyze_traffic()
+                    new_avg_speed = traffic_analyzer.getAvgSpeed()
                     traffic_status = traffic_analyzer.get_traffic_status()    
                     data = {'traffic_status': traffic_status,
+                            'avg_speed': new_avg_speed,
+                            'unit_speed' : "km/h",
                             'datetime': data['datetime']}
                     print("Publishing data...")
                     self.publish_json(data)
