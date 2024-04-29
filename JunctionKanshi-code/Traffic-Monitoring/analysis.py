@@ -71,7 +71,7 @@ class TrafficAnalyzer:
         elif self.avg_speed < 40 :
             return "HIGH"
         else:
-            return "NOMAL"
+            return "NORMAL"
 
 class MQTTClientPubSub:
     def __init__(self, broker_address, broker_port, subscribe_topic, publish_topic):
