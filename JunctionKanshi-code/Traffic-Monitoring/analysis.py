@@ -120,6 +120,7 @@ class MQTTClientPubSub:
                             'avg_speed': new_avg_speed,
                             'unit_speed' : "km/h",
                             'datetime': data['datetime']}
+                    self.publish_json(data)
                     print("Publishing data...")
                     filename = 'traffic_data/traffic_data.json'
                     # filename = 'traffic_data.json'
