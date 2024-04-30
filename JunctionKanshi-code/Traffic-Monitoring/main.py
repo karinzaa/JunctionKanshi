@@ -284,8 +284,8 @@ def trackMultipleObjects():
             threading.Thread(target=publish_data, args=(carCountPerMinute, speed)).start()
             print(f"Estimate cars per minute: {carCountPerMinute}")
             carCountPerMinute = 0
+            speed = {}
             startTime = current_time
-
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
             mqtt_client.disconnect()
