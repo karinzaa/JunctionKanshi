@@ -121,7 +121,12 @@ class MQTTClientPubSub:
                             'unit_speed' : "km/h",
                             'datetime': data['datetime']}
                     print("Publishing data...")
-                    self.publish_json(data)
+                    filename = '../traffic_data/traffic_data.json'
+                    # filename = 'traffic_data.json'
+                    with open(filename, 'w') as file:  # Open the file in append mode
+                        json.dump(data, file)
+                        file.write('')  # Ensure each JSON object is on a new line
+        
 
 if __name__ == "__main__":
     # MQTT broker configuration
