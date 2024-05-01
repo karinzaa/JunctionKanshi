@@ -123,7 +123,6 @@ class MQTTClientPubSub:
                     self.publish_json(data)
                     print("Publishing data...")
                     filename = 'traffic_data/traffic_data.json'
-                    # filename = 'traffic_data.json'
                     with open(filename, 'w') as file:  # Open the file in append mode
                         json.dump(data, file)
                         file.write('')  # Ensure each JSON object is on a new line
