@@ -126,13 +126,10 @@ def overlay_logo(frame, logo, position, margin=10):
 # Estimate speed function
 def estimateSpeed(location1, location2):
     d_pixels = math.sqrt(math.pow(location2[0] - location1[0], 2) + math.pow(location2[1] - location1[1], 2))
-    ppm = 9.8
-    # ppm = 8.8
+    ppm = 9.8 # ppm = 8.8
     d_meters = d_pixels / ppm
-    # fps = 24.97
-    fps = 29.97
-    speed = d_meters * fps * 2.85
-    # speed = d_meters * fps * 3.6
+    fps = 29.97 # fps = 24.97
+    speed = d_meters * fps * 2.85 # speed = d_meters * fps * 3.6
     return speed
 
 def isCrossingLine(point, line_start, line_end):
@@ -185,7 +182,7 @@ def trackMultipleObjects():
         for carID in carTracker.keys():
             trackingQuality = carTracker[carID].update(processed_img)
 
-            if trackingQuality < 7:
+            if trackingQuality < 6: # if trackingQuality < 7
                 carIDtoDelete.append(carID)
 
         for carID in carIDtoDelete:
@@ -285,6 +282,7 @@ def trackMultipleObjects():
             print(f"Estimate cars per minute: {carCountPerMinute}")
             carCountPerMinute = 0
             speed = {}
+            # currentCarID = 0
             startTime = current_time
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
