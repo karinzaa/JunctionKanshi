@@ -182,7 +182,7 @@ def trackMultipleObjects():
         for carID in carTracker.keys():
             trackingQuality = carTracker[carID].update(processed_img)
 
-            if trackingQuality < 6: # if trackingQuality < 7
+            if trackingQuality < 7:
                 carIDtoDelete.append(carID)
 
         for carID in carIDtoDelete:
@@ -282,7 +282,6 @@ def trackMultipleObjects():
             print(f"Estimate cars per minute: {carCountPerMinute}")
             carCountPerMinute = 0
             speed = {}
-            # currentCarID = 0
             startTime = current_time
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
