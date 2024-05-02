@@ -1,0 +1,23 @@
+{
+  "name": "JunctionKanshi",
+  "short_name": "JunctionKanshi",
+  "description": "JunctionKanshi is a Image processing AI base traffic management.",
+  "theme_color": "#000",
+  "background_color": "#000",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/pic/JunctionKanshiIcon144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/pic/JunctionKanshiIcon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

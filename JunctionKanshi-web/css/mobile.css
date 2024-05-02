@@ -1,0 +1,207 @@
+/* 
+Copyright (c) 2023 Parking Miru Web Engine By Karin Vitoonkijvanit
+
+*** Unauthorized modification of files in Parking Miru Web Engine
+shall not be held liable for any damages or errors. and
+It is a disruption of Parking Miru Web Engine's system. *** 
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "Krub", sans-serif;
+    -webkit-font-family: "Krub", sans-serif;
+    background: #0f0f0f !important;
+    color: rgb(255, 255, 255);
+}
+
+h1 {
+    font-size: 7vh;
+    font-family: "Krub", sans-serif;
+    -webkit-font-size: 10vh;
+    -webkit-font-family: "Krub", sans-serif;
+}
+
+h2 {
+    font-size: 8vh;
+    -webkit-font-size: 100px;
+}
+
+h3 {
+    font-size: 25px;
+    -webkit-font-size: 50px;
+}
+
+noti {
+    font-size: 25px;
+    font-weight: 700;
+    font-family: "Krub", sans-serif;
+    -webkit-font-size: 30px;
+    -webkit-font-weight: 700;
+    -webkit-font-family: "Krub", sans-serif;
+}
+
+button {
+    font-size: 25px !important; 
+    color: rgb(255, 255, 255) !important;
+    font-weight: 800 !important;
+    font-family: "Krub", sans-serif;
+}
+
+home {
+    font-size: 25px !important; 
+    color: rgb(255, 255, 255) !important;
+    font-weight: 800 !important;
+    font-family: "Krub", sans-serif;
+}
+
+
+version {
+    font-size: 16px !important; 
+    color: rgb(198, 198, 198) !important;
+    font-weight: 800 !important;
+    font-family: "Krub", sans-serif;
+}
+
+.roundedA {
+    border-radius: 40px;
+    border-width: 0px !important;
+    background: #252525;
+}
+
+.roundedB {
+    padding: 10px !important;
+    border-radius: 25px;
+    border-width: 0px !important;
+    background: #252525;
+}
+
+.roundedlive {
+    padding: 10px !important;
+    border-radius: 25px;
+    border-width: 0px !important;
+    background: #000000;
+}
+
+.padding {
+    padding: 10px !important;
+}
+
+.nonBorder {
+    border-width: 0px !important;
+    border-radius: 30px !important;
+}
+
+.R {
+    color: rgb(255, 85, 85) !important;
+}
+
+.G {
+    color: rgb(89, 255, 161) !important;
+}
+
+.B {
+    color: rgb(0, 170, 255) !important;
+}
+
+.Y {
+    color: rgb(255, 187, 0) !important;
+}
+
+.b {
+    font-weight: 800;
+}
+
+.c {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.center {
+    margin-top: 1vh !important;
+}
+
+.center2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+.nimimap {
+    margin-top: 6vh !important;
+}
+
+.center3 {
+    padding-top: 2vh !important;
+    padding-bottom: 2vh !important;
+}
+
+.snowflake {
+    color: #fff;
+    font-size: 1.5em;
+    font-family: Arial, sans-serif;
+    text-shadow: 0 0 5px #000;
+}
+
+@-webkit-keyframes snowflakes-fall {
+    0% {
+        top: -10%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+@-webkit-keyframes snowflakes-shake {
+
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    50% {
+        -webkit-transform: translateX(80px);
+        transform: translateX(80px);
+    }
+}
+
+@keyframes snowflakes-fall {
+    0% {
+        top: -10%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes snowflakes-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(80px);
+    }
+}
+
+#loader {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    transform: scale(1.5);
+    z-index: 1;
+    overflow: visible;
+    background: rgb(0, 0, 0) url("../pic/ring-resize-white-36.svg") no-repeat center center;
+}
