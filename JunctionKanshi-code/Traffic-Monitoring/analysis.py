@@ -65,10 +65,10 @@ class TrafficAnalyzer:
         return self.avg_speed
 
     def get_traffic_status(self):
-        if self.data['vehicleCount'] >= 0 and self.data['vehicleCount'] <= 15 :
-            return "LOW"
-        elif  self.data['vehicleCount'] > 0 and self.data['vehicleCount'] <= 10 and self.avg_speed < 40 :
+        if self.data['vehicleCount'] > 0 and self.data['vehicleCount'] <= 10 and self.avg_speed < 40 :
             return "HIGH"
+        elif self.data['vehicleCount'] >= 0 and self.data['vehicleCount'] <= 15 :
+            return "LOW"
         elif self.avg_speed < 40 :
             return "HIGH"
         else:
