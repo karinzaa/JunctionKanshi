@@ -5,6 +5,7 @@ import numpy as np
 import threading
 from queue import Queue
 from datetime import datetime
+import requests
 
 now = datetime.now()
 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
@@ -72,6 +73,52 @@ class TrafficAnalyzer:
             return "HIGH"
         else:
             return "NORMAL"
+    
+    def process_traffic_data(self, data):
+        global prev_traf_status
+        global high_traffic_count
+
+        if data['traffic_status'] == "HIGH":
+            # Increase the counter each time the status is "HIGH"
+            high_traffic_count += 1
+
+            # Check if it's the first "HIGH" after a "LOW" or after 5 consecutive "HIGH" statuses
+            if prev_traf_status == "LOW" or high_traffic_count == 5:
+                if high_traffic_count == 5:
+                    high_traffic_count = 0
+                line = LineNotify(json.dumps(data))
+                line.send_line_notify()
+            # Update the previous status
+            prev_traf_status = "HIGH"
+
+        elif data['traffic_status'] != "HIGH" and prev_traf_status == "HIGH":
+            line = LineNotify(json.dumps(data))
+            line.send_line_notify()
+            high_traffic_count = 0
+            prev_traf_status = "LOW"
+
+class LineNotify:
+    def __init__(self, data):
+        self.data = json.loads(data)
+        self.token = "your_token"
+
+    def get_line_message(self):
+        if self.data['traffic_status'] == "HIGH":
+            message = "ALERT!! There is a TRAFFIC JAM with the status: {}".format(self.data['traffic_status'])
+        else:
+            message = "Traffic jam is over"
+        return message
+
+    def send_line_notify(self):
+        url = "https://notify-api.line.me/api/notify"
+        headers = {
+            "Authorization": "Bearer " + self.token
+        }
+        payload = {
+            "message": self.get_line_message()
+        }
+        response = requests.post(url, headers=headers, data=payload)
+        return response.text
 
 class MQTTClientPubSub:
     def __init__(self, broker_address, broker_port, subscribe_topic, publish_topic):
@@ -126,9 +173,14 @@ class MQTTClientPubSub:
                     with open(filename, 'w') as file:  # Open the file in append mode
                         json.dump(data, file)
                         file.write('')  # Ensure each JSON object is on a new line
-        
+                    traffic_analyzer.process_traffic_data(data)
 
 if __name__ == "__main__":
+
+    # init variables
+    prev_traf_status = "LOW"
+    high_traffic_count = 0
+    
     # MQTT broker configuration
     mqtt_broker_address = "broker.hivemq.com"
     mqtt_port = 1883
