@@ -11,8 +11,8 @@
 #define HIVEMQ_USERNAME   "taist_aiot_dev"
 #define MQTT_TOPIC  	  "taist/aiot/junctionkanshi/camera1/status"
 
-#define WIFI_SSID         "dtac" //"KANOKSIRI_5G"
-#define WIFI_PASSWORD     "wkwkwkwk" //"Thaweelarp23"
+#define WIFI_SSID         "wifi_username"
+#define WIFI_PASSWORD     "wifi_password"
 
 String trafficStatus, dateStr, timeStr, newTrafficJam, trafficJam;
 float newAvgSpeedLCD;
@@ -84,11 +84,11 @@ void on_cmd_received(char* topic, byte* payload, unsigned int length) {
   const char* newSpeedUnit = doc["unit_speed"];
   const char* newDatetime = doc["datetime"];
 
-  if(newTrafficStatus == "LOW"){
-    newTrafficJam = "NO";
+  if(newTrafficStatus == "HIGH"){
+    newTrafficJam = "YES";
   }
   else{
-    newTrafficJam = "YES";
+    newTrafficJam = "NO";
   }
 
   Serial.print("Traffic Status: ");
