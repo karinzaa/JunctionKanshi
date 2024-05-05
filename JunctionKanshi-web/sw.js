@@ -6,12 +6,14 @@ shall not be held liable for any damages or errors. and
 It is a disruption of Parking Miru Web Engine's system. *** 
 */
 
-const CACHE_NAME = "JunctionKanshi-0.0.2";
+const CACHE_NAME = "JunctionKanshi-0.0.5";
 const OFFLINE_URL = "offline.html";
 const assets = [
   "/",
   "/index.html",
+  "/redirect.html",
   "/live.html",
+  "/applelive.html",
   "/offline.html",
   // css
   "/css/mobile.css",

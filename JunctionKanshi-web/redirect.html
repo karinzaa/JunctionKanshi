@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>JunctionKanshi | Live</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Krub:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Chivo+Mono&display=swap" rel="stylesheet" />
+
+    <link rel="manifest" href="common/manifest.json">
+    <link rel="apple-touch-icon" href="/pic/JunctionKanshiIcon.ico">
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <link rel="icon" href="pic/JunctionKanshiIcon.png" />
+    <link rel="stylesheet" href="css/mobile.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.min.js"></script>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Detect iOS devices and redirect or change content
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                window.location.href = 'applelive.html'; // Redirect to a dedicated page for iOS devices
+            }
+            else {
+                window.location.href = 'live.html'; // Redirect to a dedicated page for normal devices
+            }
+        });
+    </script>
+
+    <script src="js/num.js"></script>
+    <script src="js/mobileScript.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
