@@ -1,12 +1,4 @@
-/* 
-Copyright (c) 2023 Parking Miru Web Engine By Karin Vitoonkijvanit
-
-*** Unauthorized modification of files in Parking Miru Web Engine
-shall not be held liable for any damages or errors. and
-It is a disruption of Parking Miru Web Engine's system. *** 
-*/
-
-const CACHE_NAME = "JunctionKanshi-0.0.5";
+const CACHE_NAME = "JunctionKanshi-1.0.0";
 const OFFLINE_URL = "offline.html";
 const assets = [
   "/",
@@ -14,6 +6,7 @@ const assets = [
   "/redirect.html",
   "/live.html",
   "/applelive.html",
+  "/404.html",
   "/offline.html",
   // css
   "/css/mobile.css",
