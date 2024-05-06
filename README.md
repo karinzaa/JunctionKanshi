@@ -16,18 +16,21 @@
 To develop a system that detects traffic congestion by artificial intelligence, enabling efficient traffic management and timely intervention.
 
 ## Stakeholders
-1. **Traffic controller**
-2. **Tech Providers and Developers**
+**1. Traffic controller**
+**2. Tech Providers and Developers**
 
 ## User Stories
-1. **US1:** as a traffic controller, I want to monitor real-time data on traffic volume, so I know whether there is a traffic jam or not
-   - **acceptance criteria #1** I can see the number of vehicles passing through the junction over specific periods
-   - **acceptance criteria #2** I can identify the peak hours and patterns of traffic congestion
-2. **US2:** as a traffic controller, I want to be notified when there is a traffic jam at the junction, so I can check and control the traffic
-   - **acceptance criteria #1** I get no notification if there is no a traffic jam at the junction
-3. **US3:** as a tech provider/developer, I want to monitor the status of devices
-   - **acceptance criteria #1** I can see the status of all devices (online/activated/offline).
-   - **acceptance criteria #2** I can see a map of installed devices
+**1. US1: as a As a policeman,** I want to monitor real-time data on traffic volume, so I know whether there is a traffic jam or not.
+   - **acceptance criteria 1** I can see the number of vehicles passing through the junction over specific periods.
+   - **acceptance criteria 2** I can identify the peak hours and patterns of traffic congestion.
+   - **acceptance criteria 3** I get no notification if there is no a traffic jam at the junction.
+   - **acceptance criteria 4** I want to be notified when there is a traffic jam at the junction, so I can check and control the traffic.
+**2. US2: As a tech provider,** I want to monitor the status of devices.
+   - **acceptance criteria 1** I can see a map of installed devices.
+   - **acceptance criteria 2** I can see the number of vehicles passing through the junction over specific periods.
+   - **acceptance criteria 3** I can identify the peak hours and patterns of traffic congestion.
+**3. US3: As a general public,** I want to be notified when there is a traffic jam at the junction, so I can check,
+   - **acceptance criteria 1** I also want to monitor real-time data on traffic volume, so I know whether there is a traffic jam or not as well.
 
 ## Summary Diagram
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiDiagram.png"></img>
