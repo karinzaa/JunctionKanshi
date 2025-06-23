@@ -5,7 +5,7 @@
 # JunctionKanshi
 ## TAIST-Science Tokyo ICT720 project
 ## Our Teams
-1. **Karin Vitoonkijvani**
+1. **Karin Vitoonkijvanit**
 2. **Rosi Indah Agustin**
 3. **Purit Jessadakannasoon**
 
