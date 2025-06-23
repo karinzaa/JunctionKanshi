@@ -3,18 +3,19 @@
 </br>
 
 # JunctionKanshi
-## ICT720-software-2024
-## Our Members
-1. **Purit Jessadakannasoon (661XXXX619)**
-2. **Rosi Indah Agustin (661XXXX562)**
-3. **Karin Vitoonkijvanit (661XXXX589)**
+## TAIST-Science Tokyo ICT720 project
+## Our Teams
+1. **Karin Vitoonkijvani**
+2. **Rosi Indah Agustin**
+3. **Purit Jessadakannasoon**
 
 # Overview     
-## Domain: Traffic Monitor & Control
+## Traffic Monitor & Control
 
 ## Objective
 **To develop a system that detects traffic congestion by artificial intelligence, enabling efficient traffic management and timely intervention.**
 
+<!---
 ## Stakeholders
 1. **Traffic controller**
 2. **Tech Providers and Developers**
@@ -31,6 +32,7 @@
    - **Acceptance criteria 3** I can identify the peak hours and patterns of traffic congestion.
 3. **US3: As a general public,** I want to be notified when there is a traffic jam at the junction, so I can check,
    - **Acceptance criteria 1** I also want to monitor real-time data on traffic volume, so I know whether there is a traffic jam or not as well.
+-->
 
 ## Summary Diagram
 <img align="center" src="https://github.com/karinzaa/JunctionKanshi/blob/main/images/JunctionKanshiDiagram.png"></img>
